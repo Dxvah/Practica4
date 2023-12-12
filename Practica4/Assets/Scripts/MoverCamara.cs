@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MoverCamara : MonoBehaviour
 {
@@ -8,18 +9,33 @@ public class MoverCamara : MonoBehaviour
     public float velocidad;
     public float tiempo;
     private Vector3 OrigenMovimiento;
-    public bool modoRaton = false;
-
+    private bool movimientoRaton = false;
+    public Canvas miCanvas;
 
     void Update()
     {
-        if (modoRaton == true)
+        
+        if (miCanvas.gameObject.activeSelf)
         {
-            PanCamara();
-        }
-        else
-        {
-            MovCamara();
+            
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                movimientoRaton = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.O))
+            {
+                movimientoRaton = false;
+            }
+
+            
+            if (movimientoRaton)
+            {
+                PanCamara();
+            }
+            else
+            {
+                MovCamara();
+            }
         }
     }
 
@@ -40,9 +56,6 @@ public class MoverCamara : MonoBehaviour
 
     void MovCamara()
     {
-       
-
-
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
             NuevaPosicion += transform.forward * velocidad;
