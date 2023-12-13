@@ -1,87 +1,67 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 public class CreacionMenu : MonoBehaviour
 {
-    public Text contadorText;
     public GameObject arbolPrefab;
     public GameObject cabanaPrefab;
     public GameObject puentePrefab;
     public GameObject otroPrefab;
-    public GameObject canvasObj;
 
-    private int contadorTotal = 0;
+    private GameObject objetoACrear;
 
-    void Start()
+    float radioAreaInfluencia = 5f;
+
+    void Update()
     {
-        DesactivarCanvasInicial();
-    }
-
-    void DesactivarCanvasInicial()
-    {
-        Canvas canvas = canvasObj.GetComponent<Canvas>();
-        if (canvas != null)
+        if (Input.GetMouseButtonDown(1))
         {
-            canvas.enabled = false;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            int layerMask = 1 << LayerMask.NameToLayer("Ground");
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            {
+                if (objetoACrear != null)
+                {
+                    Collider[] colliders = Physics.OverlapSphere(hit.point, radioAreaInfluencia);
+
+                    if (colliders.Length == 3)
+                    {
+                        Instantiate(objetoACrear, hit.point, Quaternion.identity);   
+                    }
+                    else
+                    {
+                        Debug.Log("Hay objetos muy cerca.");
+                    }
+                }
+            }
         }
     }
 
-    public void ActivarCanvas()
+   
+    public void SeleccionarArbol()
     {
-        Canvas canvas = canvasObj.GetComponent<Canvas>();
-        if (canvas != null)
-        {
-            canvas.enabled = true;
-        }
+        objetoACrear = arbolPrefab;
+        Debug.Log("objeto creado");
     }
 
-    public void CrearArbol()
+    public void SeleccionarCabana()
     {
-        ActivarCanvas();
-        CrearObjeto(arbolPrefab);
+        objetoACrear = cabanaPrefab;
+        Debug.Log("objeto creado");
     }
 
-    public void CrearCabana()
+    public void SeleccionarPuente()
     {
-        ActivarCanvas();
-        CrearObjeto(cabanaPrefab);
+        objetoACrear = puentePrefab;
+        Debug.Log("objeto creado");
     }
 
-    public void CrearPuente()
+    public void SeleccionarOtro()
     {
-        ActivarCanvas();
-        CrearObjeto(puentePrefab);
-    }
-
-    public void CrearOtro()
-    {
-        ActivarCanvas();
-        CrearObjeto(otroPrefab);
-    }
-
-    void CrearObjeto(GameObject prefab)
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        int layerMask = 3 << LayerMask.NameToLayer("Ground");
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
-        {
-            Instantiate(prefab, hit.point, Quaternion.identity);
-            contadorTotal++;
-            contadorText.text = "Total: " + contadorTotal.ToString();
-            Invoke("DesactivarCanvas", 2f);
-        }
-    }
-
-    void DesactivarCanvas()
-    {
-        Canvas canvas = canvasObj.GetComponent<Canvas>();
-        if (canvas != null)
-        {
-            canvas.enabled = false;
-        }
+        objetoACrear = otroPrefab;
+        Debug.Log("objeto creado");
     }
 }
