@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class MoverCamara : MonoBehaviour
 {
     private Vector3 NuevaPosicion;
-    public float velocidad;
+    public float speed;
     public float tiempo;
-    private Vector3 OrigenMovimiento;
+    private Vector3 OrigenMov;
     private bool movimientoRaton = false;
     public Canvas miCanvas;
 
@@ -44,12 +44,12 @@ public class MoverCamara : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 correccionEjes = new Vector3(Input.mousePosition.x, 0.0f, Input.mousePosition.y);
-            OrigenMovimiento = correccionEjes;
+            OrigenMov = correccionEjes;
         }
         else if (Input.GetMouseButton(0))
         {
             Vector3 correccionEjes = new Vector3(Input.mousePosition.x, 0.0f, Input.mousePosition.y);
-            Vector3 Distancia = OrigenMovimiento - correccionEjes;
+            Vector3 Distancia = OrigenMov - correccionEjes;
             transform.position += Distancia * Time.deltaTime;
         }
     }
@@ -58,19 +58,19 @@ public class MoverCamara : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            NuevaPosicion += transform.forward * velocidad;
+            NuevaPosicion += transform.forward * speed;
         }
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            NuevaPosicion += transform.right * -velocidad;
+            NuevaPosicion += transform.right * -speed;
         }
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            NuevaPosicion += transform.forward * -velocidad;
+            NuevaPosicion += transform.forward * -speed;
         }
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            NuevaPosicion += transform.right * velocidad;
+            NuevaPosicion += transform.right * speed;
         }
 
         transform.position = Vector3.Lerp(transform.position, NuevaPosicion, Time.deltaTime * tiempo);
