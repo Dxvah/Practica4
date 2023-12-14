@@ -10,7 +10,7 @@ public class CreacionMenu : MonoBehaviour
 
     private GameObject objetoACrear;
 
-    float radioAreaInfluencia = 5f;
+    float radioAreaInfluencia = 55f;
 
     void Update()
     {
@@ -26,8 +26,9 @@ public class CreacionMenu : MonoBehaviour
                 if (objetoACrear != null)
                 {
                     Collider[] colliders = Physics.OverlapSphere(hit.point, radioAreaInfluencia);
+                    Debug.Log("Cantidad de colliders detectados: " + colliders.Length);
 
-                    if (colliders.Length == 3)
+                    if (colliders.Length == 1)
                     {
                         Instantiate(objetoACrear, hit.point, Quaternion.identity);   
                     }
