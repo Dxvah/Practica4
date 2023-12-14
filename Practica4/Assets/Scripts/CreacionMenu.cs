@@ -8,7 +8,7 @@ public class CreacionMenu : MonoBehaviour
     public GameObject puentePrefab;
     public GameObject otroPrefab;
 
-    private GameObject objetoACrear;
+    private static GameObject objetoACrear;
 
     float radioAreaInfluencia = 55f;
 
@@ -19,10 +19,11 @@ public class CreacionMenu : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            int layerMask = 1 << LayerMask.NameToLayer("Ground");
+            int layerMask = 1 << 3;
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
             {
+                Debug.Log("Rayo lanzado");
                 if (objetoACrear != null)
                 {
                     Collider[] colliders = Physics.OverlapSphere(hit.point, radioAreaInfluencia);

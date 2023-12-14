@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Arbol
+  - "Caba\xF1a"
+  - Puente
+  - Otro
   layers:
   - Default
   - TransparentFX
